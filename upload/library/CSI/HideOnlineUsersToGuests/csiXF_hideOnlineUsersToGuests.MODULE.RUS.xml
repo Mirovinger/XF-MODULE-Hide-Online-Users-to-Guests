@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright © 2015 CYBERSPACE Industries
+  Contacts: http://cyberspace.industries/
+  License: LICENSE.ENG.txt / LICENSE.RUS.txt
+-->
+<addon addon_id="csiXF_hideOUTG" title="(CSI/XF/MODULE) Скрытие списка &quot;Кто онлайн&quot; от гостей" version_string="1.0.0" version_id="1" url="http://cyberspace.industries/" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners/>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases/>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="csiXF_hideOUTG_error" version_id="1" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase error}</xen:title>
+<xen:h1>{$xenOptions.boardTitle} - {xen:phrase error}</xen:h1>
+
+<xen:include template="helper_login_form" />]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="sidebar_online_users" modification_key="csiXF_hideOUTG_sou_start" description="Модификация шаблона &quot;sidebar_online_users&quot;" execution_order="99999999" enabled="1" action="str_replace">
+      <find><![CDATA[<!-- block: sidebar_online_users -->]]></find>
+      <replace><![CDATA[$0
+<xen:if is="{$visitor.user_id}">]]></replace>
+    </modification>
+    <modification template="sidebar_online_users" modification_key="csiXF_hideOUTG_sou_end" description="Модификация шаблона &quot;sidebar_online_users&quot;" execution_order="99999999" enabled="1" action="str_replace">
+      <find><![CDATA[<!-- end block: sidebar_online_users -->]]></find>
+      <replace><![CDATA[</xen:if>
+$0]]></replace>
+    </modification>
+    <modification template="online_list" modification_key="csiXF_hideOUTG_ol_start" description="Модификация шаблона &quot;online_list&quot;" execution_order="99999999" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:title>{xen:phrase current_visitors}</xen:title>]]></find>
+      <replace><![CDATA[<xen:if is="{$visitor.user_id}">
+$0]]></replace>
+    </modification>
+    <modification template="online_list" modification_key="csiXF_hideOUTG_ol_end" description="Модификация шаблона &quot;online_list&quot;" execution_order="99999999" enabled="1" action="str_replace">
+      <find><![CDATA[</xen:sidebar>]]></find>
+      <replace><![CDATA[$0
+<xen:else />
+  <xen:include template="csiXF_hideOUTG_error" />
+</xen:if>]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
